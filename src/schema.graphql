@@ -1,24 +1,53 @@
+
+
 type Query {
-  person(id: ID!): Person
+  person(kennitala: String!): Person
 }
-scalar DateTime
 type Mutation {
+  createPerson(data: PersonCreateInput!): Person!
   createSubmission(info:String!):Submission
 }
-input TimeFrameCreateInput {
-  start:DateTime!
-}
-
+scalar Long
+scalar DateTime
 type Person {
   id: ID!
+  kennitala: String!
   name: String!
+  income: Float!
+  address: String!
+  spouse: Person
+  personal_discount: Float!
+  pension: Float!
+  additional_pension: Float!
+  union_fees: Float!
+  income_tax_rate: Float!
+  expected_date_of_birth: DateTime!
+}
+input PersonCreateInput {
+  kennitala: String!
+  name: String!
+  income: Float!
+  address: String!
+  spouse: PersonCreateInput
+  personal_discount: Float!
+  pension: Float!
+  additional_pension: Float!
+  union_fees: Float!
+  income_tax_rate: Float!
+  expected_date_of_birth: DateTime!
 }
 
-type TimeFrame {
-  start: DateTime!
-}
 
 type Submission {
   id: ID!
-  info: String!
+  timeframes: [timeframe]!
+  person: Person!
+  number_of_months: Int!
+
+}
+
+type timeframe {
+  id: ID!
+  start: DateTime!
+  end: DateTime!
 }

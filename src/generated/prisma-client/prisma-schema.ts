@@ -2,7 +2,15 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateSubmission {
+export const typeDefs = /* GraphQL */ `type AggregatePerson {
+  count: Int!
+}
+
+type AggregateSubmission {
+  count: Int!
+}
+
+type Aggregatetimeframe {
   count: Int!
 }
 
@@ -10,15 +18,29 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
+  createPerson(data: PersonCreateInput!): Person!
+  updatePerson(data: PersonUpdateInput!, where: PersonWhereUniqueInput!): Person
+  updateManyPersons(data: PersonUpdateManyMutationInput!, where: PersonWhereInput): BatchPayload!
+  upsertPerson(where: PersonWhereUniqueInput!, create: PersonCreateInput!, update: PersonUpdateInput!): Person!
+  deletePerson(where: PersonWhereUniqueInput!): Person
+  deleteManyPersons(where: PersonWhereInput): BatchPayload!
   createSubmission(data: SubmissionCreateInput!): Submission!
   updateSubmission(data: SubmissionUpdateInput!, where: SubmissionWhereUniqueInput!): Submission
   updateManySubmissions(data: SubmissionUpdateManyMutationInput!, where: SubmissionWhereInput): BatchPayload!
   upsertSubmission(where: SubmissionWhereUniqueInput!, create: SubmissionCreateInput!, update: SubmissionUpdateInput!): Submission!
   deleteSubmission(where: SubmissionWhereUniqueInput!): Submission
   deleteManySubmissions(where: SubmissionWhereInput): BatchPayload!
+  createtimeframe(data: timeframeCreateInput!): timeframe!
+  updatetimeframe(data: timeframeUpdateInput!, where: timeframeWhereUniqueInput!): timeframe
+  updateManytimeframes(data: timeframeUpdateManyMutationInput!, where: timeframeWhereInput): BatchPayload!
+  upserttimeframe(where: timeframeWhereUniqueInput!, create: timeframeCreateInput!, update: timeframeUpdateInput!): timeframe!
+  deletetimeframe(where: timeframeWhereUniqueInput!): timeframe
+  deleteManytimeframes(where: timeframeWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -38,16 +60,312 @@ type PageInfo {
   endCursor: String
 }
 
+type Person {
+  id: ID!
+  kennitala: String!
+  name: String!
+  income: Float!
+  address: String!
+  spouse: Person
+  personal_discount: Float!
+  pension: Float!
+  additional_pension: Float!
+  union_fees: Float!
+  income_tax_rate: Float!
+  expected_date_of_birth: DateTime!
+}
+
+type PersonConnection {
+  pageInfo: PageInfo!
+  edges: [PersonEdge]!
+  aggregate: AggregatePerson!
+}
+
+input PersonCreateInput {
+  id: ID
+  kennitala: String!
+  name: String!
+  income: Float!
+  address: String!
+  spouse: PersonCreateOneInput
+  personal_discount: Float!
+  pension: Float!
+  additional_pension: Float!
+  union_fees: Float!
+  income_tax_rate: Float!
+  expected_date_of_birth: DateTime!
+}
+
+input PersonCreateOneInput {
+  create: PersonCreateInput
+  connect: PersonWhereUniqueInput
+}
+
+type PersonEdge {
+  node: Person!
+  cursor: String!
+}
+
+enum PersonOrderByInput {
+  id_ASC
+  id_DESC
+  kennitala_ASC
+  kennitala_DESC
+  name_ASC
+  name_DESC
+  income_ASC
+  income_DESC
+  address_ASC
+  address_DESC
+  personal_discount_ASC
+  personal_discount_DESC
+  pension_ASC
+  pension_DESC
+  additional_pension_ASC
+  additional_pension_DESC
+  union_fees_ASC
+  union_fees_DESC
+  income_tax_rate_ASC
+  income_tax_rate_DESC
+  expected_date_of_birth_ASC
+  expected_date_of_birth_DESC
+}
+
+type PersonPreviousValues {
+  id: ID!
+  kennitala: String!
+  name: String!
+  income: Float!
+  address: String!
+  personal_discount: Float!
+  pension: Float!
+  additional_pension: Float!
+  union_fees: Float!
+  income_tax_rate: Float!
+  expected_date_of_birth: DateTime!
+}
+
+type PersonSubscriptionPayload {
+  mutation: MutationType!
+  node: Person
+  updatedFields: [String!]
+  previousValues: PersonPreviousValues
+}
+
+input PersonSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PersonWhereInput
+  AND: [PersonSubscriptionWhereInput!]
+  OR: [PersonSubscriptionWhereInput!]
+  NOT: [PersonSubscriptionWhereInput!]
+}
+
+input PersonUpdateDataInput {
+  kennitala: String
+  name: String
+  income: Float
+  address: String
+  spouse: PersonUpdateOneInput
+  personal_discount: Float
+  pension: Float
+  additional_pension: Float
+  union_fees: Float
+  income_tax_rate: Float
+  expected_date_of_birth: DateTime
+}
+
+input PersonUpdateInput {
+  kennitala: String
+  name: String
+  income: Float
+  address: String
+  spouse: PersonUpdateOneInput
+  personal_discount: Float
+  pension: Float
+  additional_pension: Float
+  union_fees: Float
+  income_tax_rate: Float
+  expected_date_of_birth: DateTime
+}
+
+input PersonUpdateManyMutationInput {
+  kennitala: String
+  name: String
+  income: Float
+  address: String
+  personal_discount: Float
+  pension: Float
+  additional_pension: Float
+  union_fees: Float
+  income_tax_rate: Float
+  expected_date_of_birth: DateTime
+}
+
+input PersonUpdateOneInput {
+  create: PersonCreateInput
+  update: PersonUpdateDataInput
+  upsert: PersonUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PersonWhereUniqueInput
+}
+
+input PersonUpdateOneRequiredInput {
+  create: PersonCreateInput
+  update: PersonUpdateDataInput
+  upsert: PersonUpsertNestedInput
+  connect: PersonWhereUniqueInput
+}
+
+input PersonUpsertNestedInput {
+  update: PersonUpdateDataInput!
+  create: PersonCreateInput!
+}
+
+input PersonWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  kennitala: String
+  kennitala_not: String
+  kennitala_in: [String!]
+  kennitala_not_in: [String!]
+  kennitala_lt: String
+  kennitala_lte: String
+  kennitala_gt: String
+  kennitala_gte: String
+  kennitala_contains: String
+  kennitala_not_contains: String
+  kennitala_starts_with: String
+  kennitala_not_starts_with: String
+  kennitala_ends_with: String
+  kennitala_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  income: Float
+  income_not: Float
+  income_in: [Float!]
+  income_not_in: [Float!]
+  income_lt: Float
+  income_lte: Float
+  income_gt: Float
+  income_gte: Float
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  spouse: PersonWhereInput
+  personal_discount: Float
+  personal_discount_not: Float
+  personal_discount_in: [Float!]
+  personal_discount_not_in: [Float!]
+  personal_discount_lt: Float
+  personal_discount_lte: Float
+  personal_discount_gt: Float
+  personal_discount_gte: Float
+  pension: Float
+  pension_not: Float
+  pension_in: [Float!]
+  pension_not_in: [Float!]
+  pension_lt: Float
+  pension_lte: Float
+  pension_gt: Float
+  pension_gte: Float
+  additional_pension: Float
+  additional_pension_not: Float
+  additional_pension_in: [Float!]
+  additional_pension_not_in: [Float!]
+  additional_pension_lt: Float
+  additional_pension_lte: Float
+  additional_pension_gt: Float
+  additional_pension_gte: Float
+  union_fees: Float
+  union_fees_not: Float
+  union_fees_in: [Float!]
+  union_fees_not_in: [Float!]
+  union_fees_lt: Float
+  union_fees_lte: Float
+  union_fees_gt: Float
+  union_fees_gte: Float
+  income_tax_rate: Float
+  income_tax_rate_not: Float
+  income_tax_rate_in: [Float!]
+  income_tax_rate_not_in: [Float!]
+  income_tax_rate_lt: Float
+  income_tax_rate_lte: Float
+  income_tax_rate_gt: Float
+  income_tax_rate_gte: Float
+  expected_date_of_birth: DateTime
+  expected_date_of_birth_not: DateTime
+  expected_date_of_birth_in: [DateTime!]
+  expected_date_of_birth_not_in: [DateTime!]
+  expected_date_of_birth_lt: DateTime
+  expected_date_of_birth_lte: DateTime
+  expected_date_of_birth_gt: DateTime
+  expected_date_of_birth_gte: DateTime
+  AND: [PersonWhereInput!]
+  OR: [PersonWhereInput!]
+  NOT: [PersonWhereInput!]
+}
+
+input PersonWhereUniqueInput {
+  id: ID
+}
+
 type Query {
+  person(where: PersonWhereUniqueInput!): Person
+  persons(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person]!
+  personsConnection(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PersonConnection!
   submission(where: SubmissionWhereUniqueInput!): Submission
   submissions(where: SubmissionWhereInput, orderBy: SubmissionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Submission]!
   submissionsConnection(where: SubmissionWhereInput, orderBy: SubmissionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SubmissionConnection!
+  timeframe(where: timeframeWhereUniqueInput!): timeframe
+  timeframes(where: timeframeWhereInput, orderBy: timeframeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [timeframe]!
+  timeframesConnection(where: timeframeWhereInput, orderBy: timeframeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): timeframeConnection!
   node(id: ID!): Node
 }
 
 type Submission {
   id: ID!
-  info: String!
+  timeframes(where: timeframeWhereInput, orderBy: timeframeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [timeframe!]
+  person: Person!
+  number_of_months: Int!
 }
 
 type SubmissionConnection {
@@ -58,7 +376,9 @@ type SubmissionConnection {
 
 input SubmissionCreateInput {
   id: ID
-  info: String!
+  timeframes: timeframeCreateManyInput
+  person: PersonCreateOneInput!
+  number_of_months: Int!
 }
 
 type SubmissionEdge {
@@ -69,13 +389,13 @@ type SubmissionEdge {
 enum SubmissionOrderByInput {
   id_ASC
   id_DESC
-  info_ASC
-  info_DESC
+  number_of_months_ASC
+  number_of_months_DESC
 }
 
 type SubmissionPreviousValues {
   id: ID!
-  info: String!
+  number_of_months: Int!
 }
 
 type SubmissionSubscriptionPayload {
@@ -97,11 +417,13 @@ input SubmissionSubscriptionWhereInput {
 }
 
 input SubmissionUpdateInput {
-  info: String
+  timeframes: timeframeUpdateManyInput
+  person: PersonUpdateOneRequiredInput
+  number_of_months: Int
 }
 
 input SubmissionUpdateManyMutationInput {
-  info: String
+  number_of_months: Int
 }
 
 input SubmissionWhereInput {
@@ -119,20 +441,18 @@ input SubmissionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  info: String
-  info_not: String
-  info_in: [String!]
-  info_not_in: [String!]
-  info_lt: String
-  info_lte: String
-  info_gt: String
-  info_gte: String
-  info_contains: String
-  info_not_contains: String
-  info_starts_with: String
-  info_not_starts_with: String
-  info_ends_with: String
-  info_not_ends_with: String
+  timeframes_every: timeframeWhereInput
+  timeframes_some: timeframeWhereInput
+  timeframes_none: timeframeWhereInput
+  person: PersonWhereInput
+  number_of_months: Int
+  number_of_months_not: Int
+  number_of_months_in: [Int!]
+  number_of_months_not_in: [Int!]
+  number_of_months_lt: Int
+  number_of_months_lte: Int
+  number_of_months_gt: Int
+  number_of_months_gte: Int
   AND: [SubmissionWhereInput!]
   OR: [SubmissionWhereInput!]
   NOT: [SubmissionWhereInput!]
@@ -143,6 +463,193 @@ input SubmissionWhereUniqueInput {
 }
 
 type Subscription {
+  person(where: PersonSubscriptionWhereInput): PersonSubscriptionPayload
   submission(where: SubmissionSubscriptionWhereInput): SubmissionSubscriptionPayload
+  timeframe(where: timeframeSubscriptionWhereInput): timeframeSubscriptionPayload
+}
+
+type timeframe {
+  id: ID!
+  start: DateTime!
+  end: DateTime!
+}
+
+type timeframeConnection {
+  pageInfo: PageInfo!
+  edges: [timeframeEdge]!
+  aggregate: Aggregatetimeframe!
+}
+
+input timeframeCreateInput {
+  id: ID
+  start: DateTime!
+  end: DateTime!
+}
+
+input timeframeCreateManyInput {
+  create: [timeframeCreateInput!]
+  connect: [timeframeWhereUniqueInput!]
+}
+
+type timeframeEdge {
+  node: timeframe!
+  cursor: String!
+}
+
+enum timeframeOrderByInput {
+  id_ASC
+  id_DESC
+  start_ASC
+  start_DESC
+  end_ASC
+  end_DESC
+}
+
+type timeframePreviousValues {
+  id: ID!
+  start: DateTime!
+  end: DateTime!
+}
+
+input timeframeScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  start: DateTime
+  start_not: DateTime
+  start_in: [DateTime!]
+  start_not_in: [DateTime!]
+  start_lt: DateTime
+  start_lte: DateTime
+  start_gt: DateTime
+  start_gte: DateTime
+  end: DateTime
+  end_not: DateTime
+  end_in: [DateTime!]
+  end_not_in: [DateTime!]
+  end_lt: DateTime
+  end_lte: DateTime
+  end_gt: DateTime
+  end_gte: DateTime
+  AND: [timeframeScalarWhereInput!]
+  OR: [timeframeScalarWhereInput!]
+  NOT: [timeframeScalarWhereInput!]
+}
+
+type timeframeSubscriptionPayload {
+  mutation: MutationType!
+  node: timeframe
+  updatedFields: [String!]
+  previousValues: timeframePreviousValues
+}
+
+input timeframeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: timeframeWhereInput
+  AND: [timeframeSubscriptionWhereInput!]
+  OR: [timeframeSubscriptionWhereInput!]
+  NOT: [timeframeSubscriptionWhereInput!]
+}
+
+input timeframeUpdateDataInput {
+  start: DateTime
+  end: DateTime
+}
+
+input timeframeUpdateInput {
+  start: DateTime
+  end: DateTime
+}
+
+input timeframeUpdateManyDataInput {
+  start: DateTime
+  end: DateTime
+}
+
+input timeframeUpdateManyInput {
+  create: [timeframeCreateInput!]
+  update: [timeframeUpdateWithWhereUniqueNestedInput!]
+  upsert: [timeframeUpsertWithWhereUniqueNestedInput!]
+  delete: [timeframeWhereUniqueInput!]
+  connect: [timeframeWhereUniqueInput!]
+  set: [timeframeWhereUniqueInput!]
+  disconnect: [timeframeWhereUniqueInput!]
+  deleteMany: [timeframeScalarWhereInput!]
+  updateMany: [timeframeUpdateManyWithWhereNestedInput!]
+}
+
+input timeframeUpdateManyMutationInput {
+  start: DateTime
+  end: DateTime
+}
+
+input timeframeUpdateManyWithWhereNestedInput {
+  where: timeframeScalarWhereInput!
+  data: timeframeUpdateManyDataInput!
+}
+
+input timeframeUpdateWithWhereUniqueNestedInput {
+  where: timeframeWhereUniqueInput!
+  data: timeframeUpdateDataInput!
+}
+
+input timeframeUpsertWithWhereUniqueNestedInput {
+  where: timeframeWhereUniqueInput!
+  update: timeframeUpdateDataInput!
+  create: timeframeCreateInput!
+}
+
+input timeframeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  start: DateTime
+  start_not: DateTime
+  start_in: [DateTime!]
+  start_not_in: [DateTime!]
+  start_lt: DateTime
+  start_lte: DateTime
+  start_gt: DateTime
+  start_gte: DateTime
+  end: DateTime
+  end_not: DateTime
+  end_in: [DateTime!]
+  end_not_in: [DateTime!]
+  end_lt: DateTime
+  end_lte: DateTime
+  end_gt: DateTime
+  end_gte: DateTime
+  AND: [timeframeWhereInput!]
+  OR: [timeframeWhereInput!]
+  NOT: [timeframeWhereInput!]
+}
+
+input timeframeWhereUniqueInput {
+  id: ID
 }
 `

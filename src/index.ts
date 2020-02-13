@@ -4,30 +4,36 @@ import { Context } from './utils'
 
 const resolvers = {
   Query: {
-    drafts(parent, args, context: Context) {
-      return context.prisma.posts({ where: { published: false } })
-    },
-    post(parent, { id }, context: Context) {
-      return context.prisma.post({ id })
-    },
+    // drafts(parent, args, context: Context) {
+    //   return context.prisma.posts({ where: { published: false } })
+    // },
+    // post(parent, { id }, context: Context) {
+    //   return context.prisma.post({ id })
+    // },
+    person(parent, { kennitala }, context: Context) {
+      return context.prisma.persons({ where: { kennitala: kennitala} })
+    }
   },
   Mutation: {
-    createDraft(parent, { title, content }, context: Context) {
-      return context.prisma.createPost({ title, content })
-    },
-    deletePost(parent, { id }, context: Context) {
-      return context.prisma.deletePost({ id })
-    },
-    publish(parent, { id }, context: Context) {
-      return context.prisma.updatePost({
-        where: { id },
-        data: { published: true },
-      })
-    },
-    createSubmission(parent, {info}, context:Context) {
-      console.log(info);
-      // return context.prisma.createSubmiss({info:info})
-    },
+    // createDraft(parent, { title, content }, context: Context) {
+    //   return context.prisma.createPost({ title, content })
+    // },
+    // deletePost(parent, { id }, context: Context) {
+    //   return context.prisma.deletePost({ id })
+    // },
+    // publish(parent, { id }, context: Context) {
+    //   return context.prisma.updatePost({
+    //     where: { id },
+    //     data: { published: true },
+    //   })
+    // },
+    // createSubmission(parent, {info}, context:Context) {
+    //   console.log(info);
+    //   // return context.prisma.createSubmiss({info:info})
+    // },
+    createPerson(parent, args, context:Context) {
+      return context.prisma.createPerson(args)
+    }
   },
 }
 

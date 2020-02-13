@@ -16,7 +16,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  person: (where?: PersonWhereInput) => Promise<boolean>;
   submission: (where?: SubmissionWhereInput) => Promise<boolean>;
+  timeframe: (where?: timeframeWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -38,6 +40,25 @@ export interface Prisma {
    * Queries
    */
 
+  person: (where: PersonWhereUniqueInput) => PersonNullablePromise;
+  persons: (args?: {
+    where?: PersonWhereInput;
+    orderBy?: PersonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Person>;
+  personsConnection: (args?: {
+    where?: PersonWhereInput;
+    orderBy?: PersonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PersonConnectionPromise;
   submission: (where: SubmissionWhereUniqueInput) => SubmissionNullablePromise;
   submissions: (args?: {
     where?: SubmissionWhereInput;
@@ -57,12 +78,47 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => SubmissionConnectionPromise;
+  timeframe: (where: timeframeWhereUniqueInput) => timeframeNullablePromise;
+  timeframes: (args?: {
+    where?: timeframeWhereInput;
+    orderBy?: timeframeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<timeframe>;
+  timeframesConnection: (args?: {
+    where?: timeframeWhereInput;
+    orderBy?: timeframeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => timeframeConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
    * Mutations
    */
 
+  createPerson: (data: PersonCreateInput) => PersonPromise;
+  updatePerson: (args: {
+    data: PersonUpdateInput;
+    where: PersonWhereUniqueInput;
+  }) => PersonPromise;
+  updateManyPersons: (args: {
+    data: PersonUpdateManyMutationInput;
+    where?: PersonWhereInput;
+  }) => BatchPayloadPromise;
+  upsertPerson: (args: {
+    where: PersonWhereUniqueInput;
+    create: PersonCreateInput;
+    update: PersonUpdateInput;
+  }) => PersonPromise;
+  deletePerson: (where: PersonWhereUniqueInput) => PersonPromise;
+  deleteManyPersons: (where?: PersonWhereInput) => BatchPayloadPromise;
   createSubmission: (data: SubmissionCreateInput) => SubmissionPromise;
   updateSubmission: (args: {
     data: SubmissionUpdateInput;
@@ -79,6 +135,22 @@ export interface Prisma {
   }) => SubmissionPromise;
   deleteSubmission: (where: SubmissionWhereUniqueInput) => SubmissionPromise;
   deleteManySubmissions: (where?: SubmissionWhereInput) => BatchPayloadPromise;
+  createtimeframe: (data: timeframeCreateInput) => timeframePromise;
+  updatetimeframe: (args: {
+    data: timeframeUpdateInput;
+    where: timeframeWhereUniqueInput;
+  }) => timeframePromise;
+  updateManytimeframes: (args: {
+    data: timeframeUpdateManyMutationInput;
+    where?: timeframeWhereInput;
+  }) => BatchPayloadPromise;
+  upserttimeframe: (args: {
+    where: timeframeWhereUniqueInput;
+    create: timeframeCreateInput;
+    update: timeframeUpdateInput;
+  }) => timeframePromise;
+  deletetimeframe: (where: timeframeWhereUniqueInput) => timeframePromise;
+  deleteManytimeframes: (where?: timeframeWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -88,9 +160,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  person: (
+    where?: PersonSubscriptionWhereInput
+  ) => PersonSubscriptionPayloadSubscription;
   submission: (
     where?: SubmissionSubscriptionWhereInput
   ) => SubmissionSubscriptionPayloadSubscription;
+  timeframe: (
+    where?: timeframeSubscriptionWhereInput
+  ) => timeframeSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -101,19 +179,70 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type PersonOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "kennitala_ASC"
+  | "kennitala_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "income_ASC"
+  | "income_DESC"
+  | "address_ASC"
+  | "address_DESC"
+  | "personal_discount_ASC"
+  | "personal_discount_DESC"
+  | "pension_ASC"
+  | "pension_DESC"
+  | "additional_pension_ASC"
+  | "additional_pension_DESC"
+  | "union_fees_ASC"
+  | "union_fees_DESC"
+  | "income_tax_rate_ASC"
+  | "income_tax_rate_DESC"
+  | "expected_date_of_birth_ASC"
+  | "expected_date_of_birth_DESC";
+
+export type timeframeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "start_ASC"
+  | "start_DESC"
+  | "end_ASC"
+  | "end_DESC";
+
 export type SubmissionOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "info_ASC"
-  | "info_DESC";
+  | "number_of_months_ASC"
+  | "number_of_months_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type SubmissionWhereUniqueInput = AtLeastOne<{
+export interface PersonUpdateInput {
+  kennitala?: Maybe<String>;
+  name?: Maybe<String>;
+  income?: Maybe<Float>;
+  address?: Maybe<String>;
+  spouse?: Maybe<PersonUpdateOneInput>;
+  personal_discount?: Maybe<Float>;
+  pension?: Maybe<Float>;
+  additional_pension?: Maybe<Float>;
+  union_fees?: Maybe<Float>;
+  income_tax_rate?: Maybe<Float>;
+  expected_date_of_birth?: Maybe<DateTimeInput>;
+}
+
+export type PersonWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface SubmissionWhereInput {
+export interface PersonUpsertNestedInput {
+  update: PersonUpdateDataInput;
+  create: PersonCreateInput;
+}
+
+export interface PersonWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -128,36 +257,143 @@ export interface SubmissionWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  info?: Maybe<String>;
-  info_not?: Maybe<String>;
-  info_in?: Maybe<String[] | String>;
-  info_not_in?: Maybe<String[] | String>;
-  info_lt?: Maybe<String>;
-  info_lte?: Maybe<String>;
-  info_gt?: Maybe<String>;
-  info_gte?: Maybe<String>;
-  info_contains?: Maybe<String>;
-  info_not_contains?: Maybe<String>;
-  info_starts_with?: Maybe<String>;
-  info_not_starts_with?: Maybe<String>;
-  info_ends_with?: Maybe<String>;
-  info_not_ends_with?: Maybe<String>;
-  AND?: Maybe<SubmissionWhereInput[] | SubmissionWhereInput>;
-  OR?: Maybe<SubmissionWhereInput[] | SubmissionWhereInput>;
-  NOT?: Maybe<SubmissionWhereInput[] | SubmissionWhereInput>;
+  kennitala?: Maybe<String>;
+  kennitala_not?: Maybe<String>;
+  kennitala_in?: Maybe<String[] | String>;
+  kennitala_not_in?: Maybe<String[] | String>;
+  kennitala_lt?: Maybe<String>;
+  kennitala_lte?: Maybe<String>;
+  kennitala_gt?: Maybe<String>;
+  kennitala_gte?: Maybe<String>;
+  kennitala_contains?: Maybe<String>;
+  kennitala_not_contains?: Maybe<String>;
+  kennitala_starts_with?: Maybe<String>;
+  kennitala_not_starts_with?: Maybe<String>;
+  kennitala_ends_with?: Maybe<String>;
+  kennitala_not_ends_with?: Maybe<String>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  income?: Maybe<Float>;
+  income_not?: Maybe<Float>;
+  income_in?: Maybe<Float[] | Float>;
+  income_not_in?: Maybe<Float[] | Float>;
+  income_lt?: Maybe<Float>;
+  income_lte?: Maybe<Float>;
+  income_gt?: Maybe<Float>;
+  income_gte?: Maybe<Float>;
+  address?: Maybe<String>;
+  address_not?: Maybe<String>;
+  address_in?: Maybe<String[] | String>;
+  address_not_in?: Maybe<String[] | String>;
+  address_lt?: Maybe<String>;
+  address_lte?: Maybe<String>;
+  address_gt?: Maybe<String>;
+  address_gte?: Maybe<String>;
+  address_contains?: Maybe<String>;
+  address_not_contains?: Maybe<String>;
+  address_starts_with?: Maybe<String>;
+  address_not_starts_with?: Maybe<String>;
+  address_ends_with?: Maybe<String>;
+  address_not_ends_with?: Maybe<String>;
+  spouse?: Maybe<PersonWhereInput>;
+  personal_discount?: Maybe<Float>;
+  personal_discount_not?: Maybe<Float>;
+  personal_discount_in?: Maybe<Float[] | Float>;
+  personal_discount_not_in?: Maybe<Float[] | Float>;
+  personal_discount_lt?: Maybe<Float>;
+  personal_discount_lte?: Maybe<Float>;
+  personal_discount_gt?: Maybe<Float>;
+  personal_discount_gte?: Maybe<Float>;
+  pension?: Maybe<Float>;
+  pension_not?: Maybe<Float>;
+  pension_in?: Maybe<Float[] | Float>;
+  pension_not_in?: Maybe<Float[] | Float>;
+  pension_lt?: Maybe<Float>;
+  pension_lte?: Maybe<Float>;
+  pension_gt?: Maybe<Float>;
+  pension_gte?: Maybe<Float>;
+  additional_pension?: Maybe<Float>;
+  additional_pension_not?: Maybe<Float>;
+  additional_pension_in?: Maybe<Float[] | Float>;
+  additional_pension_not_in?: Maybe<Float[] | Float>;
+  additional_pension_lt?: Maybe<Float>;
+  additional_pension_lte?: Maybe<Float>;
+  additional_pension_gt?: Maybe<Float>;
+  additional_pension_gte?: Maybe<Float>;
+  union_fees?: Maybe<Float>;
+  union_fees_not?: Maybe<Float>;
+  union_fees_in?: Maybe<Float[] | Float>;
+  union_fees_not_in?: Maybe<Float[] | Float>;
+  union_fees_lt?: Maybe<Float>;
+  union_fees_lte?: Maybe<Float>;
+  union_fees_gt?: Maybe<Float>;
+  union_fees_gte?: Maybe<Float>;
+  income_tax_rate?: Maybe<Float>;
+  income_tax_rate_not?: Maybe<Float>;
+  income_tax_rate_in?: Maybe<Float[] | Float>;
+  income_tax_rate_not_in?: Maybe<Float[] | Float>;
+  income_tax_rate_lt?: Maybe<Float>;
+  income_tax_rate_lte?: Maybe<Float>;
+  income_tax_rate_gt?: Maybe<Float>;
+  income_tax_rate_gte?: Maybe<Float>;
+  expected_date_of_birth?: Maybe<DateTimeInput>;
+  expected_date_of_birth_not?: Maybe<DateTimeInput>;
+  expected_date_of_birth_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expected_date_of_birth_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  expected_date_of_birth_lt?: Maybe<DateTimeInput>;
+  expected_date_of_birth_lte?: Maybe<DateTimeInput>;
+  expected_date_of_birth_gt?: Maybe<DateTimeInput>;
+  expected_date_of_birth_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PersonWhereInput[] | PersonWhereInput>;
+  OR?: Maybe<PersonWhereInput[] | PersonWhereInput>;
+  NOT?: Maybe<PersonWhereInput[] | PersonWhereInput>;
+}
+
+export interface timeframeUpsertWithWhereUniqueNestedInput {
+  where: timeframeWhereUniqueInput;
+  update: timeframeUpdateDataInput;
+  create: timeframeCreateInput;
 }
 
 export interface SubmissionCreateInput {
   id?: Maybe<ID_Input>;
-  info: String;
+  timeframes?: Maybe<timeframeCreateManyInput>;
+  person: PersonCreateOneInput;
+  number_of_months: Int;
 }
 
-export interface SubmissionUpdateInput {
-  info?: Maybe<String>;
+export type timeframeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface PersonUpdateManyMutationInput {
+  kennitala?: Maybe<String>;
+  name?: Maybe<String>;
+  income?: Maybe<Float>;
+  address?: Maybe<String>;
+  personal_discount?: Maybe<Float>;
+  pension?: Maybe<Float>;
+  additional_pension?: Maybe<Float>;
+  union_fees?: Maybe<Float>;
+  income_tax_rate?: Maybe<Float>;
+  expected_date_of_birth?: Maybe<DateTimeInput>;
 }
 
-export interface SubmissionUpdateManyMutationInput {
-  info?: Maybe<String>;
+export interface timeframeUpdateDataInput {
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
 }
 
 export interface SubmissionSubscriptionWhereInput {
@@ -177,127 +413,302 @@ export interface SubmissionSubscriptionWhereInput {
   >;
 }
 
+export interface timeframeUpdateWithWhereUniqueNestedInput {
+  where: timeframeWhereUniqueInput;
+  data: timeframeUpdateDataInput;
+}
+
+export interface timeframeUpdateManyMutationInput {
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+}
+
+export interface timeframeUpdateManyInput {
+  create?: Maybe<timeframeCreateInput[] | timeframeCreateInput>;
+  update?: Maybe<
+    | timeframeUpdateWithWhereUniqueNestedInput[]
+    | timeframeUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | timeframeUpsertWithWhereUniqueNestedInput[]
+    | timeframeUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<timeframeWhereUniqueInput[] | timeframeWhereUniqueInput>;
+  connect?: Maybe<timeframeWhereUniqueInput[] | timeframeWhereUniqueInput>;
+  set?: Maybe<timeframeWhereUniqueInput[] | timeframeWhereUniqueInput>;
+  disconnect?: Maybe<timeframeWhereUniqueInput[] | timeframeWhereUniqueInput>;
+  deleteMany?: Maybe<timeframeScalarWhereInput[] | timeframeScalarWhereInput>;
+  updateMany?: Maybe<
+    | timeframeUpdateManyWithWhereNestedInput[]
+    | timeframeUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface timeframeUpdateInput {
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+}
+
+export interface SubmissionUpdateManyMutationInput {
+  number_of_months?: Maybe<Int>;
+}
+
+export interface SubmissionWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  timeframes_every?: Maybe<timeframeWhereInput>;
+  timeframes_some?: Maybe<timeframeWhereInput>;
+  timeframes_none?: Maybe<timeframeWhereInput>;
+  person?: Maybe<PersonWhereInput>;
+  number_of_months?: Maybe<Int>;
+  number_of_months_not?: Maybe<Int>;
+  number_of_months_in?: Maybe<Int[] | Int>;
+  number_of_months_not_in?: Maybe<Int[] | Int>;
+  number_of_months_lt?: Maybe<Int>;
+  number_of_months_lte?: Maybe<Int>;
+  number_of_months_gt?: Maybe<Int>;
+  number_of_months_gte?: Maybe<Int>;
+  AND?: Maybe<SubmissionWhereInput[] | SubmissionWhereInput>;
+  OR?: Maybe<SubmissionWhereInput[] | SubmissionWhereInput>;
+  NOT?: Maybe<SubmissionWhereInput[] | SubmissionWhereInput>;
+}
+
+export interface PersonCreateInput {
+  id?: Maybe<ID_Input>;
+  kennitala: String;
+  name: String;
+  income: Float;
+  address: String;
+  spouse?: Maybe<PersonCreateOneInput>;
+  personal_discount: Float;
+  pension: Float;
+  additional_pension: Float;
+  union_fees: Float;
+  income_tax_rate: Float;
+  expected_date_of_birth: DateTimeInput;
+}
+
+export interface timeframeUpdateManyWithWhereNestedInput {
+  where: timeframeScalarWhereInput;
+  data: timeframeUpdateManyDataInput;
+}
+
+export interface PersonCreateOneInput {
+  create?: Maybe<PersonCreateInput>;
+  connect?: Maybe<PersonWhereUniqueInput>;
+}
+
+export interface timeframeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<timeframeWhereInput>;
+  AND?: Maybe<
+    timeframeSubscriptionWhereInput[] | timeframeSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    timeframeSubscriptionWhereInput[] | timeframeSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    timeframeSubscriptionWhereInput[] | timeframeSubscriptionWhereInput
+  >;
+}
+
+export interface SubmissionUpdateInput {
+  timeframes?: Maybe<timeframeUpdateManyInput>;
+  person?: Maybe<PersonUpdateOneRequiredInput>;
+  number_of_months?: Maybe<Int>;
+}
+
+export type SubmissionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface timeframeCreateManyInput {
+  create?: Maybe<timeframeCreateInput[] | timeframeCreateInput>;
+  connect?: Maybe<timeframeWhereUniqueInput[] | timeframeWhereUniqueInput>;
+}
+
+export interface timeframeCreateInput {
+  id?: Maybe<ID_Input>;
+  start: DateTimeInput;
+  end: DateTimeInput;
+}
+
+export interface PersonUpdateDataInput {
+  kennitala?: Maybe<String>;
+  name?: Maybe<String>;
+  income?: Maybe<Float>;
+  address?: Maybe<String>;
+  spouse?: Maybe<PersonUpdateOneInput>;
+  personal_discount?: Maybe<Float>;
+  pension?: Maybe<Float>;
+  additional_pension?: Maybe<Float>;
+  union_fees?: Maybe<Float>;
+  income_tax_rate?: Maybe<Float>;
+  expected_date_of_birth?: Maybe<DateTimeInput>;
+}
+
+export interface PersonUpdateOneInput {
+  create?: Maybe<PersonCreateInput>;
+  update?: Maybe<PersonUpdateDataInput>;
+  upsert?: Maybe<PersonUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<PersonWhereUniqueInput>;
+}
+
+export interface timeframeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  start?: Maybe<DateTimeInput>;
+  start_not?: Maybe<DateTimeInput>;
+  start_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_lt?: Maybe<DateTimeInput>;
+  start_lte?: Maybe<DateTimeInput>;
+  start_gt?: Maybe<DateTimeInput>;
+  start_gte?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+  end_not?: Maybe<DateTimeInput>;
+  end_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_lt?: Maybe<DateTimeInput>;
+  end_lte?: Maybe<DateTimeInput>;
+  end_gt?: Maybe<DateTimeInput>;
+  end_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<timeframeWhereInput[] | timeframeWhereInput>;
+  OR?: Maybe<timeframeWhereInput[] | timeframeWhereInput>;
+  NOT?: Maybe<timeframeWhereInput[] | timeframeWhereInput>;
+}
+
+export interface PersonSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PersonWhereInput>;
+  AND?: Maybe<PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput>;
+  OR?: Maybe<PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput>;
+  NOT?: Maybe<PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput>;
+}
+
+export interface timeframeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  start?: Maybe<DateTimeInput>;
+  start_not?: Maybe<DateTimeInput>;
+  start_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_lt?: Maybe<DateTimeInput>;
+  start_lte?: Maybe<DateTimeInput>;
+  start_gt?: Maybe<DateTimeInput>;
+  start_gte?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+  end_not?: Maybe<DateTimeInput>;
+  end_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_lt?: Maybe<DateTimeInput>;
+  end_lte?: Maybe<DateTimeInput>;
+  end_gt?: Maybe<DateTimeInput>;
+  end_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<timeframeScalarWhereInput[] | timeframeScalarWhereInput>;
+  OR?: Maybe<timeframeScalarWhereInput[] | timeframeScalarWhereInput>;
+  NOT?: Maybe<timeframeScalarWhereInput[] | timeframeScalarWhereInput>;
+}
+
+export interface timeframeUpdateManyDataInput {
+  start?: Maybe<DateTimeInput>;
+  end?: Maybe<DateTimeInput>;
+}
+
+export interface PersonUpdateOneRequiredInput {
+  create?: Maybe<PersonCreateInput>;
+  update?: Maybe<PersonUpdateDataInput>;
+  upsert?: Maybe<PersonUpsertNestedInput>;
+  connect?: Maybe<PersonWhereUniqueInput>;
+}
+
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Submission {
+export interface timeframePreviousValues {
   id: ID_Output;
-  info: String;
+  start: DateTimeOutput;
+  end: DateTimeOutput;
 }
 
-export interface SubmissionPromise extends Promise<Submission>, Fragmentable {
+export interface timeframePreviousValuesPromise
+  extends Promise<timeframePreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
-  info: () => Promise<String>;
+  start: () => Promise<DateTimeOutput>;
+  end: () => Promise<DateTimeOutput>;
 }
 
-export interface SubmissionSubscription
-  extends Promise<AsyncIterator<Submission>>,
+export interface timeframePreviousValuesSubscription
+  extends Promise<AsyncIterator<timeframePreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  info: () => Promise<AsyncIterator<String>>;
+  start: () => Promise<AsyncIterator<DateTimeOutput>>;
+  end: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface SubmissionNullablePromise
-  extends Promise<Submission | null>,
+export interface SubmissionPreviousValues {
+  id: ID_Output;
+  number_of_months: Int;
+}
+
+export interface SubmissionPreviousValuesPromise
+  extends Promise<SubmissionPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  info: () => Promise<String>;
+  number_of_months: () => Promise<Int>;
 }
 
-export interface SubmissionConnection {
-  pageInfo: PageInfo;
-  edges: SubmissionEdge[];
-}
-
-export interface SubmissionConnectionPromise
-  extends Promise<SubmissionConnection>,
+export interface SubmissionPreviousValuesSubscription
+  extends Promise<AsyncIterator<SubmissionPreviousValues>>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SubmissionEdge>>() => T;
-  aggregate: <T = AggregateSubmissionPromise>() => T;
-}
-
-export interface SubmissionConnectionSubscription
-  extends Promise<AsyncIterator<SubmissionConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SubmissionEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSubmissionSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface SubmissionEdge {
-  node: Submission;
-  cursor: String;
-}
-
-export interface SubmissionEdgePromise
-  extends Promise<SubmissionEdge>,
-    Fragmentable {
-  node: <T = SubmissionPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface SubmissionEdgeSubscription
-  extends Promise<AsyncIterator<SubmissionEdge>>,
-    Fragmentable {
-  node: <T = SubmissionSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateSubmission {
-  count: Int;
-}
-
-export interface AggregateSubmissionPromise
-  extends Promise<AggregateSubmission>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateSubmissionSubscription
-  extends Promise<AsyncIterator<AggregateSubmission>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  number_of_months: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface SubmissionSubscriptionPayload {
@@ -325,24 +736,473 @@ export interface SubmissionSubscriptionPayloadSubscription
   previousValues: <T = SubmissionPreviousValuesSubscription>() => T;
 }
 
-export interface SubmissionPreviousValues {
+export interface timeframe {
   id: ID_Output;
-  info: String;
+  start: DateTimeOutput;
+  end: DateTimeOutput;
 }
 
-export interface SubmissionPreviousValuesPromise
-  extends Promise<SubmissionPreviousValues>,
-    Fragmentable {
+export interface timeframePromise extends Promise<timeframe>, Fragmentable {
   id: () => Promise<ID_Output>;
-  info: () => Promise<String>;
+  start: () => Promise<DateTimeOutput>;
+  end: () => Promise<DateTimeOutput>;
 }
 
-export interface SubmissionPreviousValuesSubscription
-  extends Promise<AsyncIterator<SubmissionPreviousValues>>,
+export interface timeframeSubscription
+  extends Promise<AsyncIterator<timeframe>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  info: () => Promise<AsyncIterator<String>>;
+  start: () => Promise<AsyncIterator<DateTimeOutput>>;
+  end: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
+
+export interface timeframeNullablePromise
+  extends Promise<timeframe | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  start: () => Promise<DateTimeOutput>;
+  end: () => Promise<DateTimeOutput>;
+}
+
+export interface timeframeSubscriptionPayload {
+  mutation: MutationType;
+  node: timeframe;
+  updatedFields: String[];
+  previousValues: timeframePreviousValues;
+}
+
+export interface timeframeSubscriptionPayloadPromise
+  extends Promise<timeframeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = timeframePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = timeframePreviousValuesPromise>() => T;
+}
+
+export interface timeframeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<timeframeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = timeframeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = timeframePreviousValuesSubscription>() => T;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface Aggregatetimeframe {
+  count: Int;
+}
+
+export interface AggregatetimeframePromise
+  extends Promise<Aggregatetimeframe>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatetimeframeSubscription
+  extends Promise<AsyncIterator<Aggregatetimeframe>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Submission {
+  id: ID_Output;
+  number_of_months: Int;
+}
+
+export interface SubmissionPromise extends Promise<Submission>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  timeframes: <T = FragmentableArray<timeframe>>(args?: {
+    where?: timeframeWhereInput;
+    orderBy?: timeframeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  person: <T = PersonPromise>() => T;
+  number_of_months: () => Promise<Int>;
+}
+
+export interface SubmissionSubscription
+  extends Promise<AsyncIterator<Submission>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  timeframes: <T = Promise<AsyncIterator<timeframeSubscription>>>(args?: {
+    where?: timeframeWhereInput;
+    orderBy?: timeframeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  person: <T = PersonSubscription>() => T;
+  number_of_months: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SubmissionNullablePromise
+  extends Promise<Submission | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  timeframes: <T = FragmentableArray<timeframe>>(args?: {
+    where?: timeframeWhereInput;
+    orderBy?: timeframeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  person: <T = PersonPromise>() => T;
+  number_of_months: () => Promise<Int>;
+}
+
+export interface timeframeConnection {
+  pageInfo: PageInfo;
+  edges: timeframeEdge[];
+}
+
+export interface timeframeConnectionPromise
+  extends Promise<timeframeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<timeframeEdge>>() => T;
+  aggregate: <T = AggregatetimeframePromise>() => T;
+}
+
+export interface timeframeConnectionSubscription
+  extends Promise<AsyncIterator<timeframeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<timeframeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatetimeframeSubscription>() => T;
+}
+
+export interface AggregatePerson {
+  count: Int;
+}
+
+export interface AggregatePersonPromise
+  extends Promise<AggregatePerson>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePersonSubscription
+  extends Promise<AsyncIterator<AggregatePerson>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SubmissionEdge {
+  node: Submission;
+  cursor: String;
+}
+
+export interface SubmissionEdgePromise
+  extends Promise<SubmissionEdge>,
+    Fragmentable {
+  node: <T = SubmissionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SubmissionEdgeSubscription
+  extends Promise<AsyncIterator<SubmissionEdge>>,
+    Fragmentable {
+  node: <T = SubmissionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PersonPreviousValues {
+  id: ID_Output;
+  kennitala: String;
+  name: String;
+  income: Float;
+  address: String;
+  personal_discount: Float;
+  pension: Float;
+  additional_pension: Float;
+  union_fees: Float;
+  income_tax_rate: Float;
+  expected_date_of_birth: DateTimeOutput;
+}
+
+export interface PersonPreviousValuesPromise
+  extends Promise<PersonPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  kennitala: () => Promise<String>;
+  name: () => Promise<String>;
+  income: () => Promise<Float>;
+  address: () => Promise<String>;
+  personal_discount: () => Promise<Float>;
+  pension: () => Promise<Float>;
+  additional_pension: () => Promise<Float>;
+  union_fees: () => Promise<Float>;
+  income_tax_rate: () => Promise<Float>;
+  expected_date_of_birth: () => Promise<DateTimeOutput>;
+}
+
+export interface PersonPreviousValuesSubscription
+  extends Promise<AsyncIterator<PersonPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  kennitala: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  income: () => Promise<AsyncIterator<Float>>;
+  address: () => Promise<AsyncIterator<String>>;
+  personal_discount: () => Promise<AsyncIterator<Float>>;
+  pension: () => Promise<AsyncIterator<Float>>;
+  additional_pension: () => Promise<AsyncIterator<Float>>;
+  union_fees: () => Promise<AsyncIterator<Float>>;
+  income_tax_rate: () => Promise<AsyncIterator<Float>>;
+  expected_date_of_birth: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PersonSubscriptionPayload {
+  mutation: MutationType;
+  node: Person;
+  updatedFields: String[];
+  previousValues: PersonPreviousValues;
+}
+
+export interface PersonSubscriptionPayloadPromise
+  extends Promise<PersonSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PersonPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PersonPreviousValuesPromise>() => T;
+}
+
+export interface PersonSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PersonSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PersonSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PersonPreviousValuesSubscription>() => T;
+}
+
+export interface Person {
+  id: ID_Output;
+  kennitala: String;
+  name: String;
+  income: Float;
+  address: String;
+  personal_discount: Float;
+  pension: Float;
+  additional_pension: Float;
+  union_fees: Float;
+  income_tax_rate: Float;
+  expected_date_of_birth: DateTimeOutput;
+}
+
+export interface PersonPromise extends Promise<Person>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  kennitala: () => Promise<String>;
+  name: () => Promise<String>;
+  income: () => Promise<Float>;
+  address: () => Promise<String>;
+  spouse: <T = PersonPromise>() => T;
+  personal_discount: () => Promise<Float>;
+  pension: () => Promise<Float>;
+  additional_pension: () => Promise<Float>;
+  union_fees: () => Promise<Float>;
+  income_tax_rate: () => Promise<Float>;
+  expected_date_of_birth: () => Promise<DateTimeOutput>;
+}
+
+export interface PersonSubscription
+  extends Promise<AsyncIterator<Person>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  kennitala: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  income: () => Promise<AsyncIterator<Float>>;
+  address: () => Promise<AsyncIterator<String>>;
+  spouse: <T = PersonSubscription>() => T;
+  personal_discount: () => Promise<AsyncIterator<Float>>;
+  pension: () => Promise<AsyncIterator<Float>>;
+  additional_pension: () => Promise<AsyncIterator<Float>>;
+  union_fees: () => Promise<AsyncIterator<Float>>;
+  income_tax_rate: () => Promise<AsyncIterator<Float>>;
+  expected_date_of_birth: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PersonNullablePromise
+  extends Promise<Person | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  kennitala: () => Promise<String>;
+  name: () => Promise<String>;
+  income: () => Promise<Float>;
+  address: () => Promise<String>;
+  spouse: <T = PersonPromise>() => T;
+  personal_discount: () => Promise<Float>;
+  pension: () => Promise<Float>;
+  additional_pension: () => Promise<Float>;
+  union_fees: () => Promise<Float>;
+  income_tax_rate: () => Promise<Float>;
+  expected_date_of_birth: () => Promise<DateTimeOutput>;
+}
+
+export interface PersonEdge {
+  node: Person;
+  cursor: String;
+}
+
+export interface PersonEdgePromise extends Promise<PersonEdge>, Fragmentable {
+  node: <T = PersonPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PersonEdgeSubscription
+  extends Promise<AsyncIterator<PersonEdge>>,
+    Fragmentable {
+  node: <T = PersonSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SubmissionConnection {
+  pageInfo: PageInfo;
+  edges: SubmissionEdge[];
+}
+
+export interface SubmissionConnectionPromise
+  extends Promise<SubmissionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SubmissionEdge>>() => T;
+  aggregate: <T = AggregateSubmissionPromise>() => T;
+}
+
+export interface SubmissionConnectionSubscription
+  extends Promise<AsyncIterator<SubmissionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SubmissionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSubmissionSubscription>() => T;
+}
+
+export interface AggregateSubmission {
+  count: Int;
+}
+
+export interface AggregateSubmissionPromise
+  extends Promise<AggregateSubmission>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSubmissionSubscription
+  extends Promise<AsyncIterator<AggregateSubmission>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface timeframeEdge {
+  node: timeframe;
+  cursor: String;
+}
+
+export interface timeframeEdgePromise
+  extends Promise<timeframeEdge>,
+    Fragmentable {
+  node: <T = timeframePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface timeframeEdgeSubscription
+  extends Promise<AsyncIterator<timeframeEdge>>,
+    Fragmentable {
+  node: <T = timeframeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PersonConnection {
+  pageInfo: PageInfo;
+  edges: PersonEdge[];
+}
+
+export interface PersonConnectionPromise
+  extends Promise<PersonConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PersonEdge>>() => T;
+  aggregate: <T = AggregatePersonPromise>() => T;
+}
+
+export interface PersonConnectionSubscription
+  extends Promise<AsyncIterator<PersonConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PersonEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePersonSubscription>() => T;
+}
+
+/*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+*/
+export type Float = number;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+export type Long = string;
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -356,16 +1216,9 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
-/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
-
-export type Long = string;
 
 /**
  * Model Metadata
@@ -373,7 +1226,15 @@ export type Long = string;
 
 export const models: Model[] = [
   {
+    name: "Person",
+    embedded: false
+  },
+  {
     name: "Submission",
+    embedded: false
+  },
+  {
+    name: "timeframe",
     embedded: false
   }
 ];
