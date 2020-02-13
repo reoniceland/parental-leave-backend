@@ -26,8 +26,8 @@ const resolvers = {
     },
     createSubmission(parent, {info}, context:Context) {
       console.log(info);
-      return context.prisma.createPost({title:"asdf", content:"asdf"})
-    } 
+      // return context.prisma.createSubmiss({info:info})
+    },
   },
 }
 
