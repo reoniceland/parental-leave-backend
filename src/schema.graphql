@@ -1,0 +1,36 @@
+type Query {
+  feed: [Post!]!
+  drafts: [Post!]!
+  post(id: ID!): Post
+  person(id: ID!): Person
+}
+scalar DateTime
+type Mutation {
+  createDraft(title: String!, content: String): Post
+  deletePost(id: ID!): Post
+  publish(id: ID!): Post
+  createSubmission(info:String!):Submission
+}
+input TimeFrameCreateInput {
+  start:DateTime!
+}
+
+type Post {
+  id: ID!
+  published: Boolean!
+  title: String!
+  content: String!
+}
+
+type Person {
+  id: ID!
+  name: String!
+}
+
+type TimeFrame {
+  start: DateTime!
+}
+
+type Submission {
+  info: String!
+}
