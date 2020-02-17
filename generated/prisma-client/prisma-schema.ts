@@ -66,7 +66,6 @@ type Person {
   name: String!
   income: Float!
   address: String!
-  spouse: Person
   personal_discount: Float!
   pension: Float!
   additional_pension: Float!
@@ -87,7 +86,6 @@ input PersonCreateInput {
   name: String!
   income: Float!
   address: String!
-  spouse: PersonCreateOneInput
   personal_discount: Float!
   pension: Float!
   additional_pension: Float!
@@ -168,7 +166,6 @@ input PersonUpdateDataInput {
   name: String
   income: Float
   address: String
-  spouse: PersonUpdateOneInput
   personal_discount: Float
   pension: Float
   additional_pension: Float
@@ -182,7 +179,6 @@ input PersonUpdateInput {
   name: String
   income: Float
   address: String
-  spouse: PersonUpdateOneInput
   personal_discount: Float
   pension: Float
   additional_pension: Float
@@ -202,15 +198,6 @@ input PersonUpdateManyMutationInput {
   union_fees: Float
   income_tax_rate: Float
   expected_date_of_birth: DateTime
-}
-
-input PersonUpdateOneInput {
-  create: PersonCreateInput
-  update: PersonUpdateDataInput
-  upsert: PersonUpsertNestedInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: PersonWhereUniqueInput
 }
 
 input PersonUpdateOneRequiredInput {
@@ -290,7 +277,6 @@ input PersonWhereInput {
   address_not_starts_with: String
   address_ends_with: String
   address_not_ends_with: String
-  spouse: PersonWhereInput
   personal_discount: Float
   personal_discount_not: Float
   personal_discount_in: [Float!]

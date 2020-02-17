@@ -4,7 +4,6 @@ type Person {
   name: String!
   income: Float!
   address: String!
-  spouse: Person
   personal_discount: Float!
   pension: Float!
   additional_pension: Float!
