@@ -2,6 +2,7 @@
 
 type Query {
   person(kennitala: String!): Person
+  persons:[Person]
 }
 type Mutation {
   createPerson(data: PersonCreateInput!): Person!

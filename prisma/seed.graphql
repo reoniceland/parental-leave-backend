@@ -1,0 +1,19 @@
+mutation {
+  createPerson(
+    data: {
+      
+      name: "NAFND"
+      kennitala: "kennitala"
+        income: 10
+        address: "Address"
+        personal_discount: 32
+        pension: 23
+        additional_pension: 12
+        union_fees: 12
+        income_tax_rate: 12
+        expected_date_of_birth: "2020-02-18"
+    }
+  ) {
+    name
+  }
+}

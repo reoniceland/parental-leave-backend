@@ -10,8 +10,15 @@ const resolvers = {
     // post(parent, { id }, context: Context) {
     //   return context.prisma.post({ id })
     // },
-    person(parent, { kennitala }, context: Context) {
-      return context.prisma.persons({ where: { kennitala: kennitala} })
+    async person(parent, { kennitala }, context: Context) {
+      console.log(kennitala)
+      console.log(context.prisma.persons({ where: { kennitala: "kennitala"} }))
+      var p = await context.prisma.persons({ where: { kennitala:kennitala} })
+      return p[0]
+    },
+
+    persons(parent, args, context:Context) {
+        return context.prisma.persons()
     }
   },
   Mutation: {
