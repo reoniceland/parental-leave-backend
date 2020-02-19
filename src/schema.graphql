@@ -1,12 +1,14 @@
-
-
 type Query {
   person(kennitala: String!): Person
-  persons:[Person]
+  persons: [Person]
 }
 type Mutation {
   createPerson(data: PersonCreateInput!): Person!
-  createSubmission(info:String!):Submission
+  createSubmission(
+    kennitala: String!
+    number_of_months: Int!
+    timeFrames: [TimeFrameCreateInput]
+  ): Submission
 }
 scalar Long
 scalar DateTime
@@ -16,6 +18,8 @@ type Person {
   name: String!
   income: Float!
   address: String!
+  can_calculate: Boolean!
+
   spouse: Person
   personal_discount: Float!
   pension: Float!
@@ -38,17 +42,21 @@ input PersonCreateInput {
   expected_date_of_birth: DateTime!
 }
 
-
 type Submission {
   id: ID!
-  timeframes: [timeframe]!
+  timeframes: [TimeFrame]
   person: Person!
   number_of_months: Int!
-
+  payPerMonth: Float
+  payTotal: Float
 }
 
-type timeframe {
+type TimeFrame {
   id: ID!
+  start: DateTime!
+  end: DateTime!
+}
+input TimeFrameCreateInput {
   start: DateTime!
   end: DateTime!
 }

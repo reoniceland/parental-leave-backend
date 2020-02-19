@@ -11,8 +11,6 @@ const resolvers = {
     //   return context.prisma.post({ id })
     // },
     async person(parent, { kennitala }, context: Context) {
-      console.log(kennitala)
-      console.log(context.prisma.persons({ where: { kennitala: "kennitala"} }))
       var p = await context.prisma.persons({ where: { kennitala:kennitala} })
       return p[0]
     },
@@ -34,10 +32,36 @@ const resolvers = {
     //     data: { published: true },
     //   })
     // },
-    // createSubmission(parent, {info}, context:Context) {
-    //   console.log(info);
-    //   // return context.prisma.createSubmiss({info:info})
-    // },
+    async createSubmission(parent, {kennitala, number_of_months, timeFrames}, context:Context) {
+      console.log(kennitala);
+      var p = await context.prisma.persons({ where: { kennitala:kennitala} })
+      var person = p[0]
+      if (person == null) {
+        return null
+      }
+
+      var id = person.id
+      var frames = []
+      var payPerMonth = person.income*0.8 - person.income*(person.income_tax_rate/100) - person.income*(person.pension/100) - person.income*(person.additional_pension/100) - person.union_fees*(person.union_fees/100) + 54628*(person.personal_discount/100)
+      var payTotal = payPerMonth/number_of_months
+      for (let item of timeFrames) {
+        frames.push({start:item['start'], end:item['end']})
+      }
+      return await context.prisma.createSubmission({person:{connect:{id:id}}, number_of_months, payPerMonth, payTotal, timeframes:{create:frames}},).$fragment(`
+      fragment EnsureCity on Submission {
+          id
+          number_of_months
+          timeframes {
+            start
+            end
+          }
+          payPerMonth
+          payTotal
+          person {
+            name
+          }
+    }`)
+    },
     createPerson(parent, args, context:Context) {
       return context.prisma.createPerson(args)
     }

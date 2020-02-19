@@ -2,16 +2,426 @@ mutation {
   createPerson(
     data: {
       
-      name: "NAFND"
-      kennitala: "kennitala"
-        income: 10
+      name: "Test"
+      kennitala: "0000"
+        income: 500000
         address: "Address"
-        personal_discount: 32
-        pension: 23
-        additional_pension: 12
-        union_fees: 12
-        income_tax_rate: 12
+        can_calculate: true
+        personal_discount: 100
+        pension: 4
+        additional_pension: 3
+        union_fees: 3.55
+        income_tax_rate: 37.19
         expected_date_of_birth: "2020-02-18"
+    }
+  ) {
+    name
+  }
+}
+
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Ivory Y. Reese"
+      kennitala: "164105243424"
+        income: 0
+        address: "1082 Felis. St."
+        personal_discount: 0
+        pension: 0
+        additional_pension: 0
+        union_fees: 0
+        can_calculate: false
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-07-29"
+        spouseSsn:"165509042627"
+    }
+  ) {
+    name
+  }
+}
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Bruce Q. Wiggins"
+      kennitala: "161803159456"
+        income: 665711
+        address: "Ap #232-8701 Rutrum, St."
+        personal_discount: 50
+        pension: 4
+        additional_pension: 4
+        union_fees: 2.55
+        can_calculate:true
+        income_tax_rate: 37.19
+        expected_date_of_birth: "2020-05-02"
+        spouseSsn:"162307134177"
+    }
+  ) {
+    name
+  }
+}
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Stacey O. Patrick"
+      kennitala: "168112074540"
+        income: 0
+        address: "Ap #857-8375 Et, Av."
+        personal_discount: 0
+        pension: 0
+        additional_pension: 0
+        union_fees: 0
+        can_calculate:false
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-05-14"
+        spouseSsn:"162603164134"
+    }
+  ) {
+    name
+  }
+}
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Paula L. Moreno"
+      kennitala: "162307134177"
+        income: 571711
+        address: "Ap #232-8701 Rutrum, St."
+        personal_discount: 0
+        pension: 4
+        additional_pension: 0
+        can_calculate: true
+        union_fees: 2.55
+        income_tax_rate: 37.19
+        expected_date_of_birth: "2020-05-02"
+        spouseSsn:"161803159456"
+    }
+  ) {
+    name
+  }
+}
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Caleb O. Mccarthy"
+      kennitala: "164301171502"
+        income: 629856
+        address: "377-8970 Vitae Rd."
+        personal_discount: 50
+        pension: 4
+        additional_pension: 0
+        can_calculate:true
+        union_fees: 2.55
+        income_tax_rate: 37.19
+        expected_date_of_birth: "2020-05-28"
+        spouseSsn:"164208076325"
+    }
+  ) {
+    name
+  }
+}
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Allegra E. Sandoval"
+      kennitala: "169906116315"
+        income: 0
+        address: "P.O. Box 641, 4574 Erat, Rd."
+        personal_discount: 0
+        pension: 0
+        additional_pension: 0
+        can_calculate:false
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-07-28"
+        spouseSsn:"163001035603"
+    }
+  ) {
+    name
+  }
+}
+
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Vielka L. Hernandez"
+      kennitala: "166708077158"
+        income: 465654
+        address: "P.O. Box 641, 4574 Erat, Rd."
+        personal_discount: 0
+        pension: 4
+        additional_pension: 0
+        union_fees: 2.55
+        can_calculate:true
+        income_tax_rate: 37.19
+        expected_date_of_birth: "2020-07-30"
+        spouseSsn:"161210097240"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Aiko H. Johnson"
+      kennitala: "160105105340"
+        income: 0
+        address: "638-2380 Turpis Road"
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-05-14"
+        spouseSsn:"168411213088"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Hedley G. Calderon"
+      kennitala: "165203177315"
+        income: 0
+        address: "726-7435 Mauris St."
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-05-21"
+        spouseSsn:"167612226188"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Zenia B. Albert"
+      kennitala: "161106093303"
+        income: 0
+        address: "1146 Semper St."
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-06-23"
+        spouseSsn:"165702224360"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Ocean N. Gray"
+      kennitala: "162603164134"
+        income: 0
+        address: "715-8487 Odio Rd."
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-05-14"
+        spouseSsn:"168112074540"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Whilemina D. Cruz"
+      kennitala: "168710065395"
+        income: 0
+        address: "161-1241 Mollis Rd."
+        personal_discount: 0
+        pension: 4
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-07-11"
+        spouseSsn:"164208038952"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Inez Q. Pope"
+      kennitala: "162904066798"
+        income: 0
+        address: "Ap #641-1757 Ut Av."
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-06-16"
+        spouseSsn:"163701112892"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Pamela D. Chang"
+      kennitala: "169709153028"
+        income: 0
+        address: "Ap #641-1757 Ut Av."
+        personal_discount: 0
+        pension: 4
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-07-18"
+        spouseSsn:"160805027091"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Guinevere R. Farrell"
+      kennitala: "169008200892"
+        income: 0
+        address: "769-7373 Vitae, St."
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-05-30"
+        spouseSsn:"168907185055"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Kaitlin J. May"
+      kennitala: "166012264005"
+        income: 568638
+        address: "P.O. Box 383, 5321 Donec Street"
+        personal_discount: 100
+        pension: 4
+        can_calculate:true       
+        additional_pension:4
+        union_fees: 2.55
+        income_tax_rate: 37.19
+        expected_date_of_birth: "2020-07-20"
+        spouseSsn:"169802086752"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Pascale B. Hull"
+      kennitala: "168603034250"
+        income: 0
+        address: "Ap #245-4878 Et Avenue"
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-05-30"
+        spouseSsn:"164105304911"
+    }
+  ) {
+    name
+  }
+}
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Hermione W. Mcfarland"
+      kennitala: "164208076325"
+        income: 684492
+        address: "377-8970 Vitae Rd."
+        personal_discount: 0
+        pension: 4
+        can_calculate:true
+        additional_pension: 2
+        union_fees: 2.55
+        income_tax_rate: 37.19
+        expected_date_of_birth: "2020-05-28"
+        spouseSsn:"164301171502"
+    }
+  ) {
+    name
+  }
+}
+
+mutation {
+  createPerson(
+    data: {
+      
+      name: "Lani O. Ward"
+      kennitala: "167201175770"
+        income: 0
+        address: "P.O. Box 597, 7147 Euismod Av."
+        personal_discount: 0
+        pension: 0
+        can_calculate:false
+        additional_pension: 0
+        union_fees: 0
+        income_tax_rate: 0
+        expected_date_of_birth: "2020-06-06"
+        spouseSsn:"163611276795"
     }
   ) {
     name
