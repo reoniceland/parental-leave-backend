@@ -42,8 +42,18 @@ const resolvers = {
 
       var id = person.id
       var frames = []
-      var payPerMonth = person.income*0.8 - person.income*(person.income_tax_rate/100) - person.income*(person.pension/100) - person.income*(person.additional_pension/100) - person.union_fees*(person.union_fees/100) + 54628*(person.personal_discount/100)
-      var payTotal = payPerMonth/number_of_months
+      var income = person.income*0.8
+      if (income < 184119) {
+        income = 184199
+      } 
+      
+      if (income > 600000) {
+        income = 600000
+      }
+      var payPerMonth = income - income*(person.income_tax_rate/100) - income*(person.pension/100) - income*(person.additional_pension/100) - person.income*(person.union_fees/100) + 54628*(person.personal_discount/100)
+      var payTotal = payPerMonth*number_of_months
+
+      
       for (let item of timeFrames) {
         frames.push({start:item['start'], end:item['end']})
       }
