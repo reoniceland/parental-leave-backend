@@ -107,7 +107,7 @@ const resolvers = {
       if (income > 600000) {
         income = 600000
       }
-      const payPerMonth = income - income * (person.income_tax_rate / 100) - income * (person.pension / 100) - income * (person.additional_pension / 100) - person.income * (person.union_fees / 100) + 54628 * (person.personal_discount / 100)
+      const payPerMonth = income - income * (person.income_tax_rate / 100) - income * (person.pension / 100) - income * (person.additional_pension / 100) - income * (person.union_fees / 100) + 54628 * (person.personal_discount / 100)
       const payTotal = payPerMonth * number_of_months
 
 
