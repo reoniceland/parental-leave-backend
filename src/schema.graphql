@@ -4,6 +4,7 @@ type Query {
 }
 type Mutation {
   createPerson(data: PersonCreateInput!): Person!
+  updateSumbission(data:SubmissionUpdateInput):Submission
   createSubmission(
     kennitala: String!
     number_of_months: Int!
@@ -59,4 +60,10 @@ type TimeFrame {
 input TimeFrameCreateInput {
   start: DateTime!
   end: DateTime!
+}
+
+input SubmissionUpdateInput {
+  id: ID!
+  timeframes: [TimeFrameCreateInput]
+  number_of_months: Int
 }
