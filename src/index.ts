@@ -23,8 +23,8 @@ const resolvers = {
   Mutation: {
     async updateSumbission(parent, { data }, context: Context) {
       var frames = []
-      var id = data.id
-      var sub = await context.prisma.submission({ id }).timeframes()
+      const id = data.id
+      const sub = await context.prisma.submission({ id }).timeframes()
       if (data.timeframes != null) {
         for (let item of data.timeframes) {
           frames.push({ start: item['start'], end: item['end'] })
@@ -36,7 +36,7 @@ const resolvers = {
           where: { id },
           data: { timeframes: { create: frames, deleteMany: sub } },
         }).$fragment(`
-        fragment EnsureCity on Submission {
+        fragment Submission on Submission {
             id
             number_of_months
             timeframes {
@@ -50,15 +50,15 @@ const resolvers = {
             payTotal
       }`)
       }
-      var payPerMonth = await context.prisma.submission({ id }).payPerMonth()
-      var payTotal = payPerMonth * data.number_of_months
+      const payPerMonth = await context.prisma.submission({ id }).payPerMonth()
+      const payTotal = payPerMonth * data.number_of_months
 
       if (data.timeframes == null) {
         return await context.prisma.updateSubmission({
           where: { id },
           data: { number_of_months: data.number_of_months, payTotal: payTotal },
         }).$fragment(`
-        fragment EnsureCity on Submission {
+        fragment Submission on Submission {
             id
             number_of_months
             timeframes {
@@ -76,7 +76,7 @@ const resolvers = {
         where: { id },
         data: { number_of_months: data.number_of_months, payTotal: payTotal, timeframes: { create: frames, deleteMany: sub }, },
       }).$fragment(`
-      fragment EnsureCity on Submission {
+      fragment Submission on Submission {
           id
           number_of_months
           timeframes {
@@ -91,15 +91,15 @@ const resolvers = {
     }`)
     },
     async createSubmission(parent, { kennitala, number_of_months, timeFrames }, context: Context) {
-      var p = await context.prisma.persons({ where: { kennitala: kennitala } })
-      var person = p[0]
+      const p = await context.prisma.persons({ where: { kennitala: kennitala } })
+      const person = p[0]
       if (person == null) {
         return null
       }
 
-      var id = person.id
+      const id = person.id
       var frames = []
-      var income = person.income * 0.8
+      let income = person.income * 0.8
       if (income < 184119) {
         income = 184199
       }
@@ -107,15 +107,15 @@ const resolvers = {
       if (income > 600000) {
         income = 600000
       }
-      var payPerMonth = income - income * (person.income_tax_rate / 100) - income * (person.pension / 100) - income * (person.additional_pension / 100) - person.income * (person.union_fees / 100) + 54628 * (person.personal_discount / 100)
-      var payTotal = payPerMonth * number_of_months
+      const payPerMonth = income - income * (person.income_tax_rate / 100) - income * (person.pension / 100) - income * (person.additional_pension / 100) - person.income * (person.union_fees / 100) + 54628 * (person.personal_discount / 100)
+      const payTotal = payPerMonth * number_of_months
 
 
       for (let item of timeFrames) {
         frames.push({ start: item['start'], end: item['end'] })
       }
       return await context.prisma.createSubmission({ person: { connect: { id: id } }, number_of_months, payPerMonth, payTotal, timeframes: { create: frames } }).$fragment(`
-      fragment EnsureCity on Submission {
+      fragment Submission on Submission {
           id
           number_of_months
           timeframes {
