@@ -4,34 +4,23 @@ import { Context } from './utils'
 
 const resolvers = {
   Query: {
-    // drafts(parent, args, context: Context) {
-    //   return context.prisma.posts({ where: { published: false } })
-    // },
-    // post(parent, { id }, context: Context) {
-    //   return context.prisma.post({ id })
-    // },
     async person(parent, { kennitala }, context: Context) {
       var p = await context.prisma.persons({ where: { kennitala: kennitala } })
       return p[0]
     },
-
+    submission(parent, {id}, context:Context) {
+      return context.prisma.submission({id})
+    },
     persons(parent, args, context: Context) {
       return context.prisma.persons()
+    },
+    submissions(parent, {kennitala}, context: Context) {
+      return context.prisma.submissions({where: {
+        person:{kennitala:kennitala}
+      }})
     }
   },
   Mutation: {
-    // createDraft(parent, { title, content }, context: Context) {
-    //   return context.prisma.createPost({ title, content })
-    // },
-    // deletePost(parent, { id }, context: Context) {
-    //   return context.prisma.deletePost({ id })
-    // },
-    // publish(parent, { id }, context: Context) {
-    //   return context.prisma.updatePost({
-    //     where: { id },
-    //     data: { published: true },
-    //   })
-    // },
     async updateSumbission(parent, { data }, context: Context) {
       var frames = []
       var id = data.id

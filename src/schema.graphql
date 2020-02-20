@@ -1,10 +1,21 @@
 type Query {
   person(kennitala: String!): Person
+  submission(id:ID!): Submission
+
+  submissions(
+    kennitala: String!
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Submission]!
   persons: [Person]
 }
 type Mutation {
   createPerson(data: PersonCreateInput!): Person!
-  updateSumbission(data:SubmissionUpdateInput):Submission
+
+  updateSumbission(data: SubmissionUpdateInput): Submission
   createSubmission(
     kennitala: String!
     number_of_months: Int!
